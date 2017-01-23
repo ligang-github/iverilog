@@ -708,7 +708,9 @@ void dll_target::add_root(const NetScope *s)
 bool dll_target::start_design(const Design*des)
 {
       const char*dll_path_ = des->get_flag("DLL");
-
+      //[debug]:
+      cout << "dll_path: " << dll_path_  << endl;
+      //[debug]-
       dll_ = ivl_dlopen(dll_path_);
 
       if ((dll_ == 0) && (dll_path_[0] != '/')) {

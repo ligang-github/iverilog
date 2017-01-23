@@ -248,10 +248,15 @@ void struct_member_t::pform_dump(ostream&out, unsigned indent) const
 static void dump_attributes_map(ostream&out,
 				const map<perm_string,PExpr*>&attributes,
 				int ind)
-{
-      for (map<perm_string,PExpr*>::const_iterator idx = attributes.begin()
+{     
+       //[debug]:                                                                                                   
+       out << "/* in dump_attr_map() */" << endl;
+       //[debug]- 
+       for (map<perm_string,PExpr*>::const_iterator idx = attributes.begin()
 		 ; idx != attributes.end() ; ++ idx ) {
-
+	  //[debug]:
+	  out << "/* dumping... */" << endl;
+          //[debug]- 
 	    out << setw(ind) << "" << "(* " << (*idx).first;
 	    if ((*idx).second) {
 		  out << " = " << *(*idx).second;
@@ -627,10 +632,10 @@ void PGBuiltin::dump(ostream&out, unsigned ind) const
 	    out << "bufif1 ";
 	    break;
 	  case PGBuiltin::NOTIF0:
-	    out << "notif0 ";
+	    out << "bufif0 ";
 	    break;
 	  case PGBuiltin::NOTIF1:
-	    out << "notif1 ";
+	    out << "bufif1 ";
 	    break;
 	  case PGBuiltin::NAND:
 	    out << "nand ";
@@ -937,6 +942,9 @@ void PDoWhile::dump(ostream&out, unsigned ind) const
 
 void PEventStatement::dump(ostream&out, unsigned ind) const
 {
+  //[debug]:
+  out << "/* in PEventStatement::dump */ " << endl;
+  //[debug]-
       if (expr_.count() == 0) {
 	    out << setw(ind) << "" << "@* ";
 
@@ -962,6 +970,9 @@ void PEventStatement::dump(ostream&out, unsigned ind) const
 
 void PEventStatement::dump_inline(ostream&out) const
 {
+  //[debug]:
+  out << "/* in PEventStatement::dump_inline */ " << endl;
+  //[debug]-  
       assert(statement_ == 0);
 
       if (expr_.count() == 0) {
@@ -1157,11 +1168,17 @@ void PProcess::dump(ostream&out, unsigned ind) const
 {
       out << setw(ind) << "" << type_
 	  << " /* " << get_fileline() << " */" << endl;
-
+      //[debug]:
+      out << "/* start PProcess attributes */" << endl;
       dump_attributes_map(out, attributes, ind+2);
-
+      out << "/* end PProcess attributes */" << endl;
+      //[debug]-
       if (statement_)
+	    {//[debug]:
+	    out << "/* start PProcess statements */" << endl;
 	    statement_->dump(out, ind+2);
+	    out << "/* end PProcess statements */" << endl;
+	    }//[debug]-
       else
 	    out << setw(ind+2) << "" << "/* NOOP */" << endl;
 }
@@ -1605,13 +1622,15 @@ void Module::dump(ostream&out) const
       }
 
       dump_var_inits_(out, 4);
-
+      //[debug]:
+      out << "/* vvvv--PProcess in pform_dump.cc */" << endl;
       for (list<PProcess*>::const_iterator behav = behaviors.begin()
 		 ; behav != behaviors.end() ; ++ behav ) {
 
 	    (*behav)->dump(out, 4);
       }
-
+      out << "/* ^^^^--PProcess in pform_dump.cc */" <<endl;
+      //[debug]-
       for (list<AProcess*>::const_iterator idx = analog_behaviors.begin()
 		 ; idx != analog_behaviors.end() ; ++ idx) {
 	    (*idx)->dump(out, 4);

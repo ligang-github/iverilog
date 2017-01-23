@@ -26,7 +26,7 @@
  * elaborated design is presented as a Module, which does not
  * reference any other modules. It is entirely self contained.
  */
-
+# include  <iostream>
 # include  <typeinfo>
 # include  <cstdlib>
 # include  <sstream>
@@ -6312,6 +6312,9 @@ Design* elaborate(list<perm_string>roots)
 	    while (! cur_queue.empty()) {
 		  elaborator_work_item_t*tmp = cur_queue.front();
 		  cur_queue.pop_front();
+		  //[debug]:
+		  //cout << "elaborate-worklist: " << tmp->scope_->type_ << endl;
+		  //[debug]-
 		  tmp->elaborate_runrun();
 		  delete tmp;
 	    }

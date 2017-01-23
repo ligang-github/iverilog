@@ -216,8 +216,13 @@ static int flist_read_names(const char*path)
 	    fprintf(stderr, "%s: unable to open for reading.\n", path);
 	    return 1;
       }
-
+      //[debug]:
+      FILE*fdtmp = fopen("/Users/gangli/Dev/verilog/test/ivlpptmp.txt","aw");
+      //[debug]-
       while (fgets(line_buf, sizeof line_buf, fd) != 0) {
+	//[debug]:
+	fprintf(fdtmp, "[debug]:source file: %s", line_buf);
+	//[debug]-
 	    char*cp = line_buf + strspn(line_buf, " \t\r\b\f");
 	    char*tail = cp + strlen(cp);
 	    while (tail > cp) {
@@ -230,7 +235,9 @@ static int flist_read_names(const char*path)
 	    if (cp < tail)
 		  add_source_file(cp);
       }
-
+      //[debug]:
+      fclose(fdtmp);
+      //[debug]-
       fclose(fd);
       return 0;
 }

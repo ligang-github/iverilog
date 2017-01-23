@@ -447,13 +447,29 @@ static int t_compile(void)
       strcpy(cmd+ncmd, tmp);
       ncmd += rc;
 
+      //[debug]:
+      snprintf(tmp, sizeof tmp, " -P\"/Users/gangli/Dev/verilog/test/ivlpform.txt\"");
+      rc = strlen(tmp);
+      cmd = realloc(cmd, ncmd+rc+1);
+      strcpy(cmd+ncmd, tmp);
+      ncmd += rc;
+      //[debug]-  
+
+      //[debug]:
+      snprintf(tmp, sizeof tmp, " -N\"/Users/gangli/Dev/verilog/test/ivldesdump.txt\"");
+      rc = strlen(tmp);
+      cmd = realloc(cmd, ncmd+rc+1);
+      strcpy(cmd+ncmd, tmp);
+      ncmd += rc;
+      //[debug]-    
+
       snprintf(tmp, sizeof tmp, " -C\"%s\" -- -", iconfig_common_path);
       rc = strlen(tmp);
       cmd = realloc(cmd, ncmd+rc+1);
       strcpy(cmd+ncmd, tmp);
       ncmd += rc;
 
-
+      
       if (verbose_flag)
 	    printf("translate: %s\n", cmd);
 
