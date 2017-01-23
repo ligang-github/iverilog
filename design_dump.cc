@@ -243,7 +243,11 @@ static inline void dump_scope_path(ostream&o, const NetScope*scope)
 	    dump_scope_path(o, parent);
 	    o << ".";
       }
+      //[debug]:1
+      //o << " |: ";
       o << scope->fullname();
+      //[debug]:1
+      //o << " :| ";
 }
 
 ostream& operator <<(ostream&o, struct __ScopePathManip marg)
@@ -456,6 +460,9 @@ void NetNet::dump_net(ostream&o, unsigned ind) const
    connected signal. */
 void NetNode::dump_node(ostream&o, unsigned ind) const
 {
+      //[debug]:
+      o << "/* dumping baseclass NetNodes... */" << endl;
+      //[debug]-
       o << setw(ind) << "" << "node: ";
       o << typeid(*this).name() << " #(" << rise_time()
 	<< "," << fall_time() << "," << decay_time() << ") " << name()
@@ -1907,18 +1914,24 @@ void Design::dump(ostream&o) const
 		 ; cur != classes_.end() ; ++cur) {
 	    cur->second->dump_scope(o);
       }
-
+      //[debug]:
+      o << "/*end of $ROOT CLASSES--*/" << endl;
+      //[debug]-
       o << "$ROOT TASKS/FUNCTIONS:" << endl;
       for (map<NetScope*,PTaskFunc*>::const_iterator cur = root_tasks_.begin()
 		 ; cur != root_tasks_.end() ; ++ cur) {
 	    cur->first->dump(o);
       }
+      //[debug]:1
+      o << "/*end of $ROOT tasks/func--*/" << endl;
 
       o << "SCOPES:" << endl;
       for (list<NetScope*>::const_iterator scope = root_scopes_.begin();
 	   scope != root_scopes_.end(); ++ scope ) {
 	    (*scope)->dump(o);
       }
+      //[debug]:1
+      o << "/*end of SCOPES--*/" << endl;
 
       o << "ELABORATED NODES:" << endl;
 
@@ -1931,6 +1944,8 @@ void Design::dump(ostream&o) const
 		  cur = cur->node_next_;
 	    } while (cur != nodes_->node_next_);
       }
+      //[debug]:1
+      o << "/*end of NODES--*/" << endl;
 
       o << "ELABORATED BRANCHES:" << endl;
 
@@ -1938,6 +1953,8 @@ void Design::dump(ostream&o) const
 	    for (NetBranch*cur = branches_ ; cur ; cur = cur->next_)
 		  cur->dump(o, 0);
       }
+      //[debug]:1
+      o << "/*end of BRANCHES--*/" << endl;
 
       o << "ELABORATED PROCESSES:" << endl;
 
@@ -1947,4 +1964,6 @@ void Design::dump(ostream&o) const
 
       for (const NetAnalogTop*idx = aprocs_ ; idx ; idx = idx->next_)
 	    idx->dump(o, 0);
+      //[debug]:1
+      o << "/*end of processes--*/" << endl;
 }
