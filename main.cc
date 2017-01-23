@@ -1024,8 +1024,11 @@ int main(int argc, char*argv[])
 
 	/* Parse the input. Make the pform. */
       pform_set_timescale(def_ts_units, def_ts_prec, 0, 0);
-      int rc = pform_parse(argv[optind]);
-
+      int rc = pform_parse(argv[optind]); 
+      //[debug]:
+      cout << "[debug]pform_parse argv[optind]: " << argv[optind] << endl;
+      cout << "[debug]pf_path: " << pf_path << endl;
+      //[debug]-
       if (pf_path) {
 	    ofstream out (pf_path);
 	    out << "PFORM DUMP NATURES:" << endl;
