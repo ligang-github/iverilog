@@ -462,7 +462,7 @@ void NetNode::dump_node(ostream&o, unsigned ind) const
 {
       //[debug]:
       o << "/* dumping baseclass NetNodes... */" << endl;
-      //[debug]-
+      //[debug]----
       o << setw(ind) << "" << "node: ";
       o << typeid(*this).name() << " #(" << rise_time()
 	<< "," << fall_time() << "," << decay_time() << ") " << name()
